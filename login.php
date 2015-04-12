@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 $_SESSION["user_name"] = $_GET['name'];
 echo "Hello ".$_SESSION["user_name"];
@@ -11,6 +10,22 @@ echo "Hello ".$_SESSION["user_name"];
 <head>
 <title>User Login</title>
 </head>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script>
+function checkPasswordMatch() {
+    var password = $("#pwd").val();
+    var confirmPassword = $("#pwdCheck").val();
+
+    if (password != confirmPassword)
+        $("#divCheckPasswordMatch").html("Passwords do not match!");
+    else
+        $("#divCheckPasswordMatch").html("Passwords match.");
+}
+$(document).ready(function () {
+   $("#pwdCheck").keyup(checkPasswordMatch);
+});
+</script>
+
 <body>
 <form name="frmUser" method="post" action="">
 <table border="0" cellpadding="10" cellspacing="1" width="500" align="center">
@@ -38,7 +53,8 @@ echo "Hello ".$_SESSION["user_name"];
                 <div class="line"><label for="username">Username: </label><input type="text" id="username" /></div>
                 <div class="line"><label for="pwd">Password: </label><input type="password" id="pwd" /></div>
                 <!-- You may want to consider adding a "confirm" password box also -->
-                <div class="line"><label for="pwd">Conform Password: </label><input type="password" id="pwd" /></div>
+                <div class="line"><label for="pwd">Conform Password: </label><input type="password" id="pwdCheck" onChange="checkPasswordMatch();"/></div>
+                <div class="registrationFormAlert" id="divCheckPasswordMatch"></div>
                 <div class="line submit"><input type="submit" value="Submit" /></div>
              </form>
         </div>
