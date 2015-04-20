@@ -72,12 +72,13 @@ function submit_form() {
 
 
 session_start();
-if (!isset($_SESSION["user_name"])) {
+if (!isset($_SESSION["userName"])) {
+    
     echo "Not logged in yet.";
     exit();
 }
 
-echo "Hello ".$_SESSION["user_name"]."<br>";
+echo "Hello ".$_SESSION["userName"]."<br>";
 
 
 
@@ -100,7 +101,7 @@ if ($conn->connect_error) {
 if(isset($_POST['has_submitted'])){
 	$sql = "INSERT INTO TEST2 (username,".
 		"track1,track2,track3,track4,track5) VALUES('".
-		$_SESSION["user_name"]."',".
+		$_SESSION["userName"]."',".
 		$_POST['track1'].",".
 		$_POST['track2'].",".
 		$_POST['track3'].",".
@@ -157,9 +158,9 @@ if ($result->num_rows > 0) {
     echo "Nobody has voted yet.";
 }
 
-$sql = "SELECT id FROM TEST2 WHERE username='".$_SESSION["user_name"]."'";
+$sql = "SELECT id FROM TEST2 WHERE username='".$_SESSION["userName"]."'";
 
-$result = $conn->query($sql);
+$result = $conn->query($sql); 
 if ($result->num_rows==0) {
 	?>
 <!-- 
