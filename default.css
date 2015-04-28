@@ -1,3 +1,6 @@
+body{
+	font-family: "Montserrat";
+}
 h1{
 	text-align: center;
 	width: 30%;
@@ -6,3 +9,98 @@ h1{
 	font-size: 32px;
 	font-family: 'Montserrat';
 }
+
+
+.header-container{
+	width: 100%;
+	background-color: green;
+	height: 120px;
+	font-size: 42px;
+	text-align: center;
+	padding-top: 1%;
+}
+.header-container .content{
+	width: 70%;
+	margin-top: 15px;
+	padding-left: 15%;
+	padding-right: 15%;
+	font-size: 24px;
+}
+.header-container .content a:hover{
+	color: white;
+}
+.header-container .content a{
+	color: yellow;
+}
+
+.main-container{
+	width: 90%;
+	padding-left: 5%;
+	padding-right: 5%;
+	text-align: left;
+}
+
+.main-container .welcome{
+	text-align: center;
+	font-size: 24px;
+	margin-top: 25px;
+}
+.col-left, .col-right{
+	width: 49%;
+	float: left;
+}
+
+.main-container .description{
+	width: 80%;
+	margin-left: 10%;
+	margin-right: 10%;
+	color: red;
+	margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+.page-wrap {
+  min-height: 100%;
+  /* equal to footer height */
+    margin-bottom: -20px; 
+}
+.page-wrap:after {
+  content: "";
+  display: block;
+}
+.footer, .page-wrap:after {
+  /* .push must be the same height as footer */
+    height:60px; 
+
+}
+
+
+
+.footer{
+	background:#999;
+   	font-size: 12px;
+   	padding-top: 15px;
+   	color: white;
+   	padding-left: 15px;
+   	float: bottom;
+ }
+ .footer a{
+ 	color: black;
+ }
+  .footer a:hover{
+ 	color: red;
+ }
+
+
+/*
+.footer {
+   position: fixed;
+   margin-top: 50px;
+   padding-top: 20px;
+   left:0px;
+   bottom:0px;
+   height:50px;
+   width:100%;
+   background:#999;
+   font-size: 12px;
+}*/
