@@ -1,0 +1,4 @@
+SETTING UP DATABASE
+------------------
+1. Enter php myadmin
+2. import db.sql
