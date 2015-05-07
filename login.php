@@ -1,3 +1,10 @@
+<!-- 
+
+Created by Tyra He.
+
+Login page, lets users either create new username and password (and subsequently
+stores their information in the database) or allows returning users to log in.
+-->
 
 <?php
 require 'utils.php';
@@ -5,6 +12,7 @@ require 'utils.php';
 session_start();
 $status = "ok";
 
+//Check whether the user is signs up or is signing in
 if (isset($_POST['signup'])) { 
     $uname = $_POST['username'];
     $pwd = $_POST['pwd'];
@@ -57,8 +65,8 @@ if (isset($_POST['signup'])) {
     
     <!-- File with scripts-->
     <script src="global.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     
+    <!-- Checks whether the passwords match -->
     <script>
     function checkPasswordMatch() {
         var password = $("#pwd").val();
@@ -74,6 +82,8 @@ if (isset($_POST['signup'])) {
     });
     </script>
     <script>
+
+    //Validates new user form
     function validateForm() {
         var val = document.getElementById('username').value;
         if (val.length == 0) {
@@ -92,6 +102,7 @@ if (isset($_POST['signup'])) {
         }
         return true;
     }
+    //Validates returning user from
     function validateForm_ret() {
         var val = document.getElementById('username_ret').value;
         if (val.length == 0) {
@@ -107,10 +118,9 @@ if (isset($_POST['signup'])) {
     }
     </script>
 
-<body>
-    <div class="header-container">Tyra and Manav's Web App
-</div>
-<div class="page-wrap">
+
+<div class="main-page-wrap">
+    <div class="login-header-container">Jameez</div>
     <div class='main-container'><div class='welcome'>
 
         <?php 
@@ -130,19 +140,10 @@ if (isset($_POST['signup'])) {
         ?>
         
         </div></div>
-    <div class="main-container">
-        <div class="description">
-            Welcome to our music web app! Our application uses the soundcloud API to pull a playlist 
-            from the internet, and allows users to rank the set of songs in their favoriet order. Then, they
-            can view their ranking on their user page, and listen to the songs in their order. Best of all,
-            they can see how their friends have voted on the songs, and can visit a page that shows the list of 
-            songs ranked by most to least popular.<br><br>
-            Please sign in (or create an account) to try it out!
-        </div>
-    </div>
 
     <div class="main-container">
-        <div class="col-left">
+        <!-- Login for new users -->
+        <div class="col-left">    
             <h1>New Users</h1>
             <form method="post" action="login.php" onsubmit="return validateForm();" >
                 <table border="0" cellspacing="1" width="500" align="center">
@@ -165,12 +166,10 @@ if (isset($_POST['signup'])) {
                         <td colspan="2" align="center"><div class="line submit"><input type="submit" name="signup" value="Sign up" /></div></td>
                     </tr>
                 </table>
-                
-                
             </form>
-
         </div>
 
+        <!-- Login for returning users-->
          <div class="col-right">
             <h1>Returning Users</h1>
             <form method="post" action="login.php" onsubmit="return validateForm_ret();">
@@ -191,22 +190,6 @@ if (isset($_POST['signup'])) {
         </div>
     </div>
 </div>
-    <div class="footer">
-        <div class="col-left">
-            Click <a href="https://developers.soundcloud.com/">here</a> to learn more about the Soundcloud API<br>
-            Built for CS 135, Distributed Software Architecture
-        </div>
-        <div class="col-right">
-            Designed by Manav Kohli CMC '16 and Tyra He HMC '16  
-
-        </div>
-
-    </div>
-
-        
-
-
-
 
 </body>
 </html>

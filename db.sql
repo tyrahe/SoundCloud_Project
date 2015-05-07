@@ -1,6 +1,8 @@
-CREATE DATABASE myDB;
+-- Created By Tyra He --
 
-USE myDB2;
+CREATE DATABASE myDB3;
+
+USE myDB3;
 CREATE TABLE `TEST2` (
   `id` int(6) unsigned NOT NULL AUTO_INCREMENT,
   `username` varchar(30) NOT NULL,

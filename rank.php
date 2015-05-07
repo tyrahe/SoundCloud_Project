@@ -1,3 +1,13 @@
+<!-- 
+
+Created by Tyra He.
+Style editted by Manav.
+
+On this page you can rank the songs in your favorite order. You can also view other users' rankings.
+If you are unhappy with your selection, you can re-rank the songs in whatever order you please.
+Finally, you can also view the aggregate rating. 
+-->
+
 <?php require 'utils.php'; ?>
 <html>
   <head>
@@ -19,16 +29,16 @@
     
     <!-- File with scripts-->
     <script src="global.js"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
-
+    <!-- Styling -->
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
-  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
     <title>Ranking</title>
     <script>
 
+    //Makes sure that the song ranking is correct
     function validateForm() {
         var valid_values = ["1","2","3","4","5"];
         var idsInOrder = $("#sortable").sortable("toArray");
@@ -64,6 +74,8 @@
     }
     </script>
     <script>
+
+    //Submits the ranking
     function submit_form() {
       var idsInOrder = $("#sortable").sortable("toArray");
       track1 = 5 - idsInOrder.indexOf("track_1");
@@ -92,67 +104,68 @@
 
 
 <body>
- <div class="header-container">Tyra and Manav's Web App
-        <div class="content">
-            <a href="aggregate.php">THE PLAYLIST</a> | <a href="rank.php">RANKING</a> | <a href="userpage.php">USERPAGE</a>
+  <!-- Header -->
+ <div class="header-container">Jameez
+        <div class="header-content">
+            <a href="aggregate.php">THE PLAYLIST</a> | <a href="rank.php">RANK</a> | <a href="userpage.php">HOME</a>
           | <a href="logout.php">LOGOUT</a>
         </div>
-</div>
-<div class="page-wrap">
-<?php
-  session_start();
-  echo "<div class='main-container'><div class='welcome'>";
-  if (!isset($_SESSION["username"])) {
-      echo "Not logged in yet. Redirecting to log in page...";
-      ?><script>setTimeout("location.href = 'login.php';", 2000);</script><?php
-      exit();
-  }
+  </div>
+  <div class="page-wrap">
+  
+  <!-- Checks whether the user is logged in -->
+  <?php
+    session_start();
+    echo "<div class='main-container'><div class='welcome'>";
+    if (!isset($_SESSION["username"])) {
+        echo "Not logged in yet. Redirecting to log in page...";
+        ?><script>setTimeout("location.href = 'login.php';", 2000);</script><?php
+        exit();
+    }
   
 $user_rated = user_rated($_SESSION['username']);
   echo "</div></div>";
 ?>
-  <div class="main-container">
-  <center><h2>Hi <b><?echo $_SESSION["username"]; ?></b>! 
-    <?php echo $user_rated ? "" : "Rank the songs!";?></h2></center>
 
-    <div class="description">
-        On this page you can rank the songs in whatever order you like. In addition, you can view other users 
-        rankings! Once you've put them in the order you like, feel free to go checkut the ordered list on your
-        user page.<br> <em>
-        <?php
-if(isset($_POST['has_submitted'])){
-  $err = update_rating($_SESSION['username'],
-    $_POST['track1'],
-    $_POST['track2'],
-    $_POST['track3'],
-    $_POST['track4'],
-    $_POST['track5']);
-  if (!$err) {
-      echo 'Record updated successfully.';
-  } else {
-      echo "Error updating record: ".$err;
+    <div class="main-container">
+    <center><h2>Hi <b><?echo $_SESSION["username"]; ?></b>! 
+      <?php echo $user_rated ? "" : "Rank the songs!";?></h2></center>
+
+      <div class="description">
+          On this page you can rank the songs in whatever order you like. In addition, you can view other users 
+          rankings! Once you've put them in the order you like, feel free to go checkut the ordered list on your
+          user page.<em>
+<?php
+  //Checks whether the songs have been ranked
+  if(isset($_POST['has_submitted'])){
+    $err = update_rating($_SESSION['username'],
+      $_POST['track1'],
+      $_POST['track2'],
+      $_POST['track3'],
+      $_POST['track4'],
+      $_POST['track5']);
+    if (!$err) {
+        echo 'Record updated successfully.';
+    } else {
+        echo "Error updating record: ".$err;
+    }
   }
-}
-
 ?>
    </em>
-</div></div>
+    </div>
+  </div>
+
+<!-- Retrieves ranking information -->
 <?php
-
-
-
-
-
-
-
 $result = get_rating_list();
 $sum_result = get_avg_rating();
+?>
 
-?><table border='1' width='200' align = 'center'
-         id= "myTable" style="cursor: pointer;"><?php
-
-
-if ($result->num_rows > 0) {
+<!-- Song ranking form -->
+<table border='1' width='200' align = 'center'
+         id= "myTable" style="cursor: pointer;">
+<?php
+  if ($result->num_rows > 0) {
     // output data of each row
     echo "<tr align = 'center'><th>"."Name"."</th>".
          "<th>"."Track1"."</th>".
@@ -180,36 +193,38 @@ if ($result->num_rows > 0) {
          "<th>".$row2["avg_5"]."</th>".
          "</tr>";
     }
-} else {
+  } else {
     echo "Nobody has voted yet.";
-}
+  }
 ?>
 
-</table>
-<tr><td>
-  <?php echo $user_rated ? "Update Your Ranking" : "Rank Your Favorite Track"; ?>:</td>
+  </table>
+  <tr><td>
+    <?php echo $user_rated ? "Update Your Ranking" : "Rank Your Favorite Track"; ?>:</td>
 
-<button id="submit_form" onclick="submit_form();">
-<?php echo  $user_rated? "Update" : "Submit";?></button>
-</tr>
-<ul id="sortable">
-  <li class="ui-state-default" id='track_1'><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Track 1</li>
-  <li class="ui-state-default" id='track_2'><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Track 2</li>
-  <li class="ui-state-default" id='track_3'><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Track 3</li>
-  <li class="ui-state-default" id='track_4'><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Track 4</li>
-  <li class="ui-state-default" id='track_5'><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Track 5</li>
-</ul>
-</div>
+  <button id="submit_form" onclick="submit_form();">
+  <?php echo  $user_rated? "Update" : "Submit";?></button>
+  </tr>
+  <ul id="sortable">
+    <li class="ui-state-default" id='track_1'><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Track 1</li>
+    <li class="ui-state-default" id='track_2'><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Track 2</li>
+    <li class="ui-state-default" id='track_3'><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Track 3</li>
+    <li class="ui-state-default" id='track_4'><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Track 4</li>
+    <li class="ui-state-default" id='track_5'><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Track 5</li>
+  </ul>
+  </div>
 
+
+<!-- Footer -->
 <div class="footer">
-        <div class="col-left">
-            Click <a href="https://developers.soundcloud.com/">here</a> to learn more about the Soundcloud API<br>
-            Built for CS 135, Distributed Software Architecture
-        </div>
-        <div class="col-right">
-            Designed by Manav Kohli CMC '16 and Tyra He HMC '16  
-
-        </div>
+  <div class="col-left">
+    Click <a href="https://developers.soundcloud.com/">here</a> to learn more about the Soundcloud API<br>
+    Built for CS 135, Distributed Software Architecture
+  </div>
+  
+  <div class="col-right">
+    Designed by Manav Kohli CMC '16 and Tyra He HMC '16  
+  </div>
 
 </div>
 </body>

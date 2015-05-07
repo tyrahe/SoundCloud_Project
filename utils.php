@@ -1,11 +1,22 @@
 <?php
 
+/*
+ * Created by Tyra He.
+ * This file is the checking system for registered users to log in. When a user filled in the password to log into the
+ * system, the database checks character-by-character to make sure the password is correct before allowing the user to 
+ * get in. Also, when a new user is registering, this file also modifies the database to save the user name and its 
+ * password into the database.
+ *
+ */
 
+/*
+ * This function checks the connection between the database and the webpage.
+ */
 function get_conn() {
 	$servername = "localhost";
 	$username = "root";
 	$password = "";
-	$dbname = "myDB2";
+	$dbname = "myDB3";
 	return new mysqli($servername, $username, $password, $dbname);
 }
 
@@ -14,6 +25,9 @@ if (get_conn()->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
+/*
+ * This function checks the whether the user exists in the database. 
+ */
 function user_exist($username) {
 	$conn = get_conn();
 	$stmt = $conn->prepare("SELECT * FROM TEST2 WHERE username=?");
@@ -23,6 +37,10 @@ function user_exist($username) {
 	$conn->close();
     return $exist;
 }
+
+/*
+ * This function checks whether the user has already rated all the songs. This is a state check.
+ */
 function user_rated($username) {
 	$conn = get_conn();
 	$stmt = $conn->prepare("SELECT * FROM TEST2 WHERE username=? AND rated=1");
@@ -33,6 +51,9 @@ function user_rated($username) {
     return $exist;
 }
 
+/*
+ * This function checks whether the rating has been updated.
+ */
 function update_rating($username,$v1,$v2,$v3,$v4,$v5) {
 	$conn = get_conn();
 	$stmt = $conn->prepare("UPDATE TEST2 SET track1=?,track2=?,track3=?,track4=?,track5=?,rated=1 WHERE username=?");
@@ -42,6 +63,10 @@ function update_rating($username,$v1,$v2,$v3,$v4,$v5) {
     return $stmt->error;
 }
 
+
+/*
+ * This function checks whether the user has the authentication to rate.
+ */
 function authenticate($username, $password) {
 	$conn = get_conn();
 	$stmt = $conn->prepare("SELECT * FROM TEST2 WHERE username=? AND password=?");
@@ -52,6 +77,9 @@ function authenticate($username, $password) {
     return $exist;
 }
 
+/*
+ * This function allows the database to add a new user.
+ */
 function add_user($username, $password) {
 	$conn = get_conn();
     $stmt = $conn->prepare("INSERT INTO TEST2(username,password) VALUES (?,?)");
@@ -61,6 +89,9 @@ function add_user($username, $password) {
     return $stmt->error;
 }
 
+/*
+ * This function redirects the user to the main page.
+ */
 function Redirect($url, $permanent = false)
 {
     if (headers_sent() === false) {
@@ -69,6 +100,9 @@ function Redirect($url, $permanent = false)
     exit();
 }
 
+/*
+ * This function works with the sorting function later to enable a list of ordered songs.
+ */
 function get_rating_list() {
 	$conn = get_conn();
 	$sql = "SELECT username,track1,track2,track3,track4,track5 FROM TEST2 WHERE rated=1";
@@ -76,6 +110,9 @@ function get_rating_list() {
 	return $result;
 }
 
+/*
+ * This function retrieves the rating order.
+ */
 function get_rating($username) {
 	$conn = get_conn();
 	$stmt = $conn->prepare("SELECT track1,track2,track3,track4,track5 FROM TEST2 WHERE username=? AND rated=1");
@@ -90,6 +127,9 @@ function get_rating($username) {
 }
 
 
+/*
+ * This function calculates the numerical average and display in the form in the rank webpage.
+ */
 function get_avg_rating() {
 	$conn = get_conn();
 	$sql = "SELECT ROUND(AVG(track1),1) AS avg_1,

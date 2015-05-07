@@ -1,3 +1,6 @@
+// Created by Manav
+
+
  SC.initialize({
     client_id: "82bbfbb611ea601c42b750a83a4c0749",
     redirect_uri: "http://google.com",

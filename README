@@ -1,4 +1,13 @@
-SETTING UP DATABASE
+Jameez
+CS 135 Project
+Manav Kohli and Tyra He
+5/6/15
+
+
+How to run the web app
 ------------------
-1. Enter php myadmin
-2. import db.sql
+1. Place the musicapp directory in ~/Applications/XAMPP/htdocs
+2. Lauch XAMPP; start all
+3. Enter php myadmin
+4. Import /musicapp/db.sql 
+5. Finally, visit localhost/musicapp/login.php to login and begin using the application

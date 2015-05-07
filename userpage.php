@@ -1,4 +1,13 @@
-<?php require 'utils.php'; ?>
+<!-- 
+
+	Created by Manav.
+
+-->
+
+<?php 
+session_start();
+require 'utils.php'; 
+?>
 <html>
 <head>
   	<link rel="stylesheet" type="text/css" href="default.css">
@@ -17,95 +26,68 @@
 	<script src="scwidget.js"></script>
 	<script src="soundcloud.player.api.js"></script>
 	<script type="text/javascript">
+		//Prepares the soundcloud widget
 	   soundcloud.addEventListener('onPlayerReady', function(player, data) {
 	     player.api_play();
 	   });
 	</script>
-	<script>
-		
 
-
-		function showSongs(songIndex, choice){
-
-			SC.initialize({
-    		client_id: '82bbfbb611ea601c42b750a83a4c0749',
-  			});
-
-			SC.get('/playlists/96517157', function(playlist) {
-  				index = songIndex -1;
-  				$('.player').append("<h3>Choice " + choice + "</h3>" );
-  				$('.player').append("<h4>Song " + songIndex + "</h4>" );
-  				$('.player').append(playlist.tracks[index].title);
-  				$('.player').append("<br>");
-
-  				console.log(playlist.tracks[index].embeddable_by);
-  				
-			});
-
-			
-
-		};
-	</script>
 	<script>
 
+		//This function orders the songs in the descending order
 		function orderSongs(vote1, vote2, vote3, vote4, vote5){
+			//Initialializes our app with the Soundcloud API
 			SC.initialize({
     		client_id: '82bbfbb611ea601c42b750a83a4c0749',
   			});
 
+			//Gets the playlist, and acesses the tracks on it.
 			SC.get('/playlists/96517157', function(playlist) {
 
-			var ranked_songs = new Array();
-			ranked_songs[5-vote1]=0;
-			ranked_songs[5-vote2]=1;
-			ranked_songs[5-vote3]=2;
-			ranked_songs[5-vote4]=3;
-			ranked_songs[5-vote5]=4;
+				var ranked_songs = new Array();
+				ranked_songs[5-vote1]=0;
+				ranked_songs[5-vote2]=1;
+				ranked_songs[5-vote3]=2;
+				ranked_songs[5-vote4]=3;
+				ranked_songs[5-vote5]=4;
+	
 
-			
-			//songs in order
-			$('.player').append("<h3>Choice 1 </h3>" );
-			$('.player').append("<h4>Song " + (ranked_songs[0]+1) + "</h4>" );
-			$('.player').append(playlist.tracks[ranked_songs[1]].title);
-			$('.player').append("<br>");
+				//Displays the ranked songs in the correct order
+				$('.player').append("<div class='title-container'><div class='song-title'>" + playlist.tracks[ranked_songs[4]].title + "</div></div>");
+				$('.player').append("<iframe width='100%'' height='100 scrolling='no' frameborder='no' src='https://w.soundcloud.com/player/?url=https%3A//" + playlist.tracks[ranked_songs[4]].uri.substring(8) + "&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true'></iframe>");
 
-			$('.player').append("<h3>Choice 2 </h3>" );
-			$('.player').append("<h4>Song " + (ranked_songs[1]+1) + "</h4>" );
-			$('.player').append(playlist.tracks[ranked_songs[2]].title);
-			$('.player').append("<br>");
+				$('.player').append("<div class='title-container'><div class='song-title'>" + playlist.tracks[ranked_songs[3]].title + "</div></div>");
+				$('.player').append("<iframe width='100%'' height='100 scrolling='no' frameborder='no' src='https://w.soundcloud.com/player/?url=https%3A//" + playlist.tracks[ranked_songs[3]].uri.substring(8) + "&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true'></iframe>");
 
-			$('.player').append("<h3>Choice 3 </h3>" );
-			$('.player').append("<h4>Song " + (ranked_songs[2]+1) + "</h4>" );
-			$('.player').append(playlist.tracks[ranked_songs[3]].title);
-			$('.player').append("<br>");
+				$('.player').append("<div class='title-container'><div class='song-title'>" + playlist.tracks[ranked_songs[2]].title + "</div></div>");
+				$('.player').append("<iframe width='100%'' height='100 scrolling='no' frameborder='no' src='https://w.soundcloud.com/player/?url=https%3A//" + playlist.tracks[ranked_songs[2]].uri.substring(8) + "&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true'></iframe>");
+				
+				$('.player').append("<div class='title-container'><div class='song-title'>" + playlist.tracks[ranked_songs[1]].title + "</div></div>");
+				$('.player').append("<iframe width='100%'' height='100 scrolling='no' frameborder='no' src='https://w.soundcloud.com/player/?url=https%3A//" + playlist.tracks[ranked_songs[1]].uri.substring(8) + "&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true'></iframe>");
 
-			$('.player').append("<h3>Choice 4 </h3>" );
-			$('.player').append("<h4>Song " + (ranked_songs[3]+1) + "</h4>" );
-			$('.player').append(playlist.tracks[ranked_songs[4]].title);
-			$('.player').append("<br>");
-
-			$('.player').append("<h3>Choice 5 </h3>" );
-			$('.player').append("<h4>Song " + (ranked_songs[4]+1) + "</h4>" );
-			$('.player').append(playlist.tracks[ranked_songs[5]].title);
-			$('.player').append("<br>");
-
+				$('.player').append("<div class='title-container'><div class='song-title'>" + playlist.tracks[ranked_songs[0]].title + "</div></div>");
+				$('.player').append("<iframe width='100%'' height='100 scrolling='no' frameborder='no' src='https://w.soundcloud.com/player/?url=https%3A//" + playlist.tracks[ranked_songs[0]].uri.substring(8) + "&amp;auto_play=false&amp;hide_related=false&amp;show_comments=true&amp;show_user=true&amp;show_reposts=false&amp;visual=true'></iframe>");				
+		
 			});
 
 
 		}
 	</script>
-  	<title>Ranking</title>
+  <title>Ranking</title>
 </head>
 <body>
-<div class="header-container">Tyra and Manav's Web App
-        <div class="content">
-            <a href="aggregate.php">THE PLAYLIST</a> | <a href="rank.php">RANKING</a> | <a href="userpage.php">USERPAGE</a>
-        	| <a href="logout.php">LOGOUT</a>
-        </div>
-</div>
-<div class="page-wrap">
+	<!-- Header -->
+	<div class="header-container">Jameez
+	    <div class="header-content">
+	        <a href="aggregate.php">THE PLAYLIST</a> | <a href="rank.php">RANK</a> | <a href="userpage.php">HOME</a>
+	    	| <a href="logout.php">LOGOUT</a>
+	    </div>
+	</div>
+
+	<div class="page-wrap">
+
+<!-- Checks whether the user is logged in -->
 <?php
-  session_start();
   echo "<div class='main-container'><div class='welcome'>";
   if (!isset($_SESSION["username"])) {
       echo "Not logged in yet. Redirecting to log in page...";
@@ -119,17 +101,15 @@
   
   echo "</div></div>";
 ?>
-<div class="main-container">
-	<h1>YOUR Playlist</h1>
 
-    <div class="description">
-        On this page you can view the songs in your order of ranking! <br><br>
-    </div>
-</div>
 
+		<div class="main-container">
+			<h1>YOUR Playlist</h1>
+		</div>
+
+<!-- Gets the song ratings from the database and passes them to the orderSongs function,
+which displays them in the correct order. -->
 <?php
-
-//get ranking of songs
 $result = get_rating($_SESSION['username']);
 
 	if ($result) {
@@ -147,31 +127,22 @@ $result = get_rating($_SESSION['username']);
 		echo "you haven't voted yet!";
 	}
 
-
-
 ?>
-<object height="81" width="100%" id="yourPlayerId" classid="clsid:D27CDB6E-AE6D-11cf-96B8-444553540000">
-  <param name="movie" value="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fsoundcloud.com%2Fmatas%2Fhobnotropic&enable_api=true&object_id=yourPlayerId"></param>
-  <param name="allowscriptaccess" value="always"></param>
-  <embed allowscriptaccess="always" height="81" src="http://player.soundcloud.com/player.swf?url=http%3A%2F%2Fsoundcloud.com%2Fmatas%2Fhobnotropic&enable_api=true&object_id=yourPlayerId" type="application/x-shockwave-flash" width="100%" name="yourPlayerId"></embed>
-</object>
-<div class="player"></div>
-<div id='test'></div>
-</div>
+		<!-- Where the playlist is displayed -->
+		<div class="player"></div>	
+	</div>
 
-<div class="footer">
+
+	<!-- The Footer -->
+	<div class="footer">
         <div class="col-left">
             Click <a href="https://developers.soundcloud.com/">here</a> to learn more about the Soundcloud API<br>
             Built for CS 135, Distributed Software Architecture
         </div>
+
         <div class="col-right">
             Designed by Manav Kohli CMC '16 and Tyra He HMC '16  
-
         </div>
-
-</div>
-
-
-
+	</div>
 </body>
 </html>
